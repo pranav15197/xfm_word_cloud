@@ -14,7 +14,7 @@ class WordCloudHelper(object):
         if self.text:
             return self.text
         links = transcript.getLinksForTranscripts(self.series)
-        transcripts = [transcript.Transcript(link) for link in links[:1]]
+        transcripts = [transcript.Transcript(link) for link in links]
         self.text = ''
         for tp in transcripts:
             self.text += " ".join([line.text for line in tp.getAllLines()])
@@ -26,4 +26,4 @@ class WordCloudHelper(object):
         image = wordcloud.to_image()
         image.show()
 
-WordCloudHelper().show()
+WordCloudHelper('Xfm_Series_2').show()

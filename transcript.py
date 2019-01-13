@@ -1,6 +1,7 @@
 import collections
 from bs4 import BeautifulSoup
 import requests
+import json
 
 Line = collections.namedtuple('Line', ['speaker', 'text'])
 BASE_URL = "http://www.pilkipedia.co.uk"
@@ -38,3 +39,14 @@ class Transcript(object):
     def getAllLines(self):
         return self.lines
 
+if __name__ == '__main__':
+    # fetch lines from all 4 series
+    links = []
+    for i in range(1,5):
+        links += getLinksForTranscripts('Xfm_Series_' + str(i))
+    tps = [Transcript(link) for link in links ]
+    lines = []
+    for tp in tps:lines += tp.getAllLines()
+    data = {i:{"speaker": line.speaker, "text": line.text} for i,line in enumerate(lines)}
+    with open('data.json', 'w+') as f:
+        json.dump(data, f) 
